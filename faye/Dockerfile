@@ -1,4 +1,4 @@
-FROM ruby:2.3.0
+FROM ruby:2.3.4
 
 COPY Gemfile.lock Gemfile private_pub.ru /loomio-faye/
 WORKDIR /loomio-faye

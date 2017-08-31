@@ -21,7 +21,7 @@ nginx:
     - faye
 
 loomio:
-  image: loomio/loomio
+  image: loomio/loomio:stable
   expose:
    - 3000
   env_file: ./env
@@ -33,7 +33,7 @@ loomio:
     - ./uploads:/loomio/public/system
 
 worker:
-  image: loomio/loomio
+  image: loomio/loomio:stable
   env_file: ./env
   links:
     - db
@@ -44,7 +44,7 @@ worker:
   command: "bundle exec rake jobs:work"
 
 db:
-  image: postgres
+  image: postgres:9.6
   volumes:
     - ./pgdata:/pgdata
   environment:
