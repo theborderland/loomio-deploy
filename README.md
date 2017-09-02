@@ -99,6 +99,17 @@ and
 cat faye_env
 ```
 
+#### Usage reporting
+
+By default your Loomio instance will report back to www.loomio.org with the number of discussions, comments, polls, stances, users and visits that your site has had.
+
+Once per day it will send those numbers and your hostname to us, so that we are able to measure Loomio usage around the world, so that we can tell what impact our work is having.
+
+If you wish to disable this reporting function, add the following line to your `env` file
+
+```
+DISABLE_USAGE_REPORTING=1
+```
 
 ### Setup SMTP
 
