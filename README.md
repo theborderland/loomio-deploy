@@ -99,7 +99,7 @@ and
 cat faye_env
 ```
 
-#### Usage reporting
+### Usage reporting
 
 By default your Loomio instance will report back to www.loomio.org with the number of discussions, comments, polls, stances, users and visits that your site has had.
 
