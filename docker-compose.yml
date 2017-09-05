@@ -23,7 +23,7 @@ nginx:
 loomio:
   image: loomio/loomio:stable
   expose:
-   - 3000
+    - 3000
   env_file: ./env
   links:
     - db
