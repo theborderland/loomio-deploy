@@ -151,6 +151,14 @@ The following command appends some lines of text onto the system crontab file.
 cat crontab >> /etc/crontab
 ```
 
+### Sign in via third party
+
+If you want to allow users to sign in via Google, Facebook, Twitter or Github, then you'll need to add APP_KEY and APP_SECRET env lines for each provider you wish to support.
+
+You'll find env records for these providers commented out in your env file by default.
+
+[Here's how to get provider specific details](configure_login_providers.md)
+
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
 
@@ -171,8 +179,17 @@ docker-compose logs -f
 ```
 
 ## Try it out
-visit your hostname in your browser. something like `https://loomio.example.com`.
-You should see a login screen, but instead sign up at `https://loomio.example.com/users/sign_up`
+
+visit your hostname in your browser.
+
+Once you have signed in (and confirmed your email), grant yourself admin rights
+
+```
+docker-compose run loomio rails c
+User.last.update(is_admin: true)
+```
+
+you can now access the admin interface at https://loomio.example.com/admin
 
 ## Test the functionality
 Test that email is working by visiting `https://loomio.example.com/users/password/new` and get a password reset link sent to you.
@@ -182,10 +199,11 @@ Test that you can upload files into a thread.
 Test that you can reply by email.
 test that proposal closing soon works.
 
-## If something goes wrong
-Confirm `env` and `faye-env` settings are correct.
 
-After you change your `env` or `faye-env` files you need to restart the system:
+## If something goes wrong
+Confirm `env` and `faye_env` settings are correct.
+
+After you change your `env` or `faye_env` files you need to restart the system:
 
 ```sh
 docker-compose down
@@ -210,7 +228,7 @@ docker rmi $(docker images -f "dangling=true" -q)
 To login to your running rails app console:
 
 ```sh
-docker exec loomiodeploy_worker_1 bundle exec rails console
+docker-compose run loomio rails console
 ```
 
 A PostgreSQL shell to inspect the database:
@@ -218,7 +236,6 @@ A PostgreSQL shell to inspect the database:
 ```sh
 docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
 ```
-
 
 ## Building a backup policy
 Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.

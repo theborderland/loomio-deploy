@@ -11,6 +11,9 @@ LETSENCRYPT_EMAIL=REPLACE_WITH_CONTACT_EMAIL
 # the number of dots in your hostname
 TLD_LENGTH=REPLACE_WITH_TLD_LENGTH
 
+# uncomment this if you want a default subdomain of www (eg: www.loomio.org)
+# DEFAULT_SUBDOMAIN=www
+
 # smtp settings
 SUPPORT_EMAIL=REPLACE_WITH_CONTACT_EMAIL
 SMTP_DOMAIN=REPLACE_WITH_HOSTNAME
@@ -47,10 +50,12 @@ FORCE_SSL=1
 # Enable search engines to index public content
 # ALLOW_ROBOTS=1
 
+# oauth providers, to let your users login using external accounts
+# FACEBOOK_APP_KEY=REPLACE
+# FACEBOOK_APP_SECRET=REPLACE
+# TWITTER_APP_KEY=REPLACE
+# TWITTER_APP_SECRET=REPLACE
+# GOOGLE_APP_KEY=REPLACE
+# GOOGLE_APP_SECRET=REPLACE
 # SLACK_APP_KEY
 # SLACK_APP_SECRET
-# GOOGLE_APP_KEY
-# GOOGLE_APP_SECRET
-
-# uncomment this if you want a default subdomain of www
-# DEFAULT_SUBDOMAIN=www
