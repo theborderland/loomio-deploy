@@ -265,6 +265,8 @@ A PostgreSQL shell to inspect the database:
 docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
 ```
 
+-## Building a backup policy
+Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
 
 Things you want to consider when designing a proper backup policy:
 
