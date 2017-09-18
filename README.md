@@ -151,6 +151,41 @@ The following command appends some lines of text onto the system crontab file.
 cat crontab >> /etc/crontab
 ```
 
+### Setup intergration with social media
+This step is optional, and by default loomio will let users create an account.
+However, it's often easier for them to use their login on other social media. Loomio integrates and allow authentication with any site that offer oauth, like google (eg login with their gmail credentials) or facebook.
+
+edit your env file, and for each provider adds two line.
+```sh
+{{provider}}_APP_KEY
+"{{provider}}_APP_SECRET
+
+So, if you want to let users login directly from facebook and google, , in your .env file put
+
+```sh
+GOOGLE_APP_KEY=app_key
+GOOGLE_APP_SECRET=*app_secret
+FACEBOOK=app_key
+FACEBOOK_APP_SECRET=app_secret
+
+On both google and facebook, you need to create an app to register your loomio
+
+Check the documentation for each provider. 
+For Facebook, you simply have to [register loomio as an app](https://developers.facebook.com)
+
+For twitter, [create your app](https://apps.twitter.com/)
+- Website : **https://loomio.example.com**
+- callback url: **https://loomio.example.com/twitter/authorize**
+
+For Google, it's less smooth, feel free to skip this provider for now and add it later
+
+- (create your credentials in the [console](https://console.developers.google.com/) (for a web application)
+-- Authorized JavaScript origins: **https://loomio.example.com**
+-- Authorized redirect URIs: **https://loomio.example.com/google/authorize**
+- domain verification: https://loomio.example.com
+
+
+
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
 
@@ -174,6 +209,15 @@ docker-compose logs -f
 visit your hostname in your browser. something like `https://loomio.example.com`.
 You should see a login screen, but instead sign up at `https://loomio.example.com/users/sign_up`
 
+Once you have signed it (and confirmed your email), grant yourself admin rights
+```sh
+docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
+loomio_production=# update users set is_admin=true where email = 'you@example.com';
+UPDATE 1
+loomio_production=# \q
+
+you should now see the admin interface at https://loomio.example.com/admin
+
 ## Test the functionality
 Test that email is working by visiting `https://loomio.example.com/users/password/new` and get a password reset link sent to you.
 
@@ -181,6 +225,8 @@ Test that live update works with two tabs on the same discussion, write a commen
 Test that you can upload files into a thread.
 Test that you can reply by email.
 test that proposal closing soon works.
+
+
 
 ## If something goes wrong
 Confirm `env` and `faye-env` settings are correct.
@@ -219,9 +265,6 @@ A PostgreSQL shell to inspect the database:
 docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
 ```
 
-
-## Building a backup policy
-Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
 
 Things you want to consider when designing a proper backup policy:
 
