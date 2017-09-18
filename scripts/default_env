@@ -27,3 +27,30 @@ REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
 HELPER_BOT_EMAIL=no-reply@REPLACE_WITH_HOSTNAME
 RAILS_ENV=production
 FORCE_SSL=1
+
+# Errbit
+# ERRBIT_HOST
+# ERRBIT_KEY
+# ERRBIT_PORT
+
+# Custom theme
+# THEME_ICON_SRC=/files/icon.png
+# THEME_SMALL_LOGO_SRC=/files/logo.png
+# THEME_LARGE_LOGO_SRC=/files/large_logo.png
+
+# Uncomment these to disable features
+# FEATURES_DISABLE_CREATE_USER=1     # users must be invited
+# FEATURES_DISABLE_CREATE_GROUP=1    # users cannot create groups
+# FEATURES_DISABLE_PUBLIC_GROUPS=1   # disable /explore
+# FEATURES_DISABLE_HELP_LINK=1       # disable the help link
+
+# Enable search engines to index public content
+# ALLOW_ROBOTS=1
+
+# SLACK_APP_KEY
+# SLACK_APP_SECRET
+# GOOGLE_APP_KEY
+# GOOGLE_APP_SECRET
+
+# uncomment this if you want a default subdomain of www
+# DEFAULT_SUBDOMAIN=www
