@@ -29,17 +29,14 @@ REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
 # helper bot is the account which welcomes people to their groups.
 HELPER_BOT_EMAIL=no-reply@REPLACE_WITH_HOSTNAME
 RAILS_ENV=production
-FORCE_SSL=1
+
+# This breaks inbound email in single host mode
+# FORCE_SSL=1
 
 # Errbit
 # ERRBIT_HOST
 # ERRBIT_KEY
 # ERRBIT_PORT
-
-# Custom theme
-# THEME_ICON_SRC=/files/icon.png
-# THEME_SMALL_LOGO_SRC=/files/logo.png
-# THEME_LARGE_LOGO_SRC=/files/large_logo.png
 
 # Uncomment these to disable features
 # FEATURES_DISABLE_CREATE_USER=1     # users must be invited
@@ -59,3 +56,19 @@ FORCE_SSL=1
 # GOOGLE_APP_SECRET=REPLACE
 # SLACK_APP_KEY
 # SLACK_APP_SECRET
+
+# Theme images
+# images should be a multiple of 32px tall.
+# THEME_ICON_SRC=/files/icon.png
+# THEME_APP_LOGO_SRC=/files/logo.svg
+# THEME_EMAIL_HEADER_LOGO_SRC=/files/logo_128h.png
+# THEME_EMAIL_FOOTER_LOGO_SRC=/files/logo_64h.png
+
+# select a palette from material: https://material.io/guidelines/style/color.html#color-color-palette
+# or generate your own theme at http://mcg.mbitson.com/
+# THEME_PRIMARY_PALETTE=custom_primary
+# THEME_ACCENT_PALETTE=custom_accent
+# THEME_PRIMARY_PALETTE_CONFIG='{"default": "500"}'
+# THEME_ACCENT_PALETTE_CONFIG='{"default": "500", "hue-1": "400", "hue-2": "300", "hue-3": "200"}'
+# THEME_CUSTOM_PRIMARY_PALETTE='{ "50": "f2e0e5", "100": "deb3bf", "200": "c98094", "300": "b34d69", "400": "a22648", "500": "920028", "600": "8a0024", "700": "7f001e", "800": "750018", "900": "63000f", "A100": "ff939b", "A200": "ff606c", "A400": "ff2d3c", "A700": "ff1425", "contrastDefaultColor": "light", "contrastDarkColors": [ "50", "100", "200", "A100", "A200" ], "contrastLightColors": [ "300", "400", "500", "600", "700", "800", "900", "A400", "A700" ] }'
+# THEME_CUSTOM_ACCENT_PALETTE='{ "50": "e9f4fb", "100": "c8e4f6", "200": "a3d3f0", "300": "7ec1ea", "400": "62b3e6", "500": "46a6e1", "600": "3f9edd", "700": "3795d9", "800": "2f8bd5", "900": "207bcd", "A100": "ffffff", "A200": "d2e8ff", "A400": "9fcfff", "A700": "85c2ff", "contrastDefaultColor": "light", "contrastDarkColors": [ "50", "100", "200", "300", "400", "500", "600", "700", "A100", "A200", "A400", "A700" ], "contrastLightColors": [ "800", "900" ] }'
