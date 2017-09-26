@@ -256,5 +256,8 @@ docker exec -ti loomiodeploy_db_1 su - postgres -c 'pg_dump loomio_production' \
 
 Be sure you exclude `loomio-deploy/pgdata` — all you need from the database is in the dump.
 
+## Connecting the Slack app with your instance
+[Click here](/SLACK.md) for more info on how to connect the loomio slack bot to your instance.
+
 
 *Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
