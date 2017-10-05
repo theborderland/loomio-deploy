@@ -64,6 +64,12 @@ RAILS_ENV=production
 # THEME_EMAIL_HEADER_LOGO_SRC=/files/logo_128h.png
 # THEME_EMAIL_FOOTER_LOGO_SRC=/files/logo_64h.png
 
+# used in emails. use rgb or hsl values, not hex
+# THEME_PRIMARY_COLOR=rgb(255,167,38)
+# THEME_ACCENT_COLOR=rgb(0,188,212)')
+# THEME_TEXT_ON_PRIMARY_COLOR=rgb(255,255,255)
+# THEME_TEXT_ON_ACCENT_COLOR=rgb(255,255,255)
+
 # select a palette from material: https://material.io/guidelines/style/color.html#color-color-palette
 # or generate your own theme at http://mcg.mbitson.com/
 # THEME_PRIMARY_PALETTE=custom_primary

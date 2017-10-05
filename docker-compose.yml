@@ -14,6 +14,7 @@ nginx:
     - /var/run/docker.sock:/tmp/docker.sock:ro
     - ./certificates:/etc/nginx/certs:ro
     - ./nginx/vhost.d:/etc/nginx/vhost.d
+    - ./nginx/conf.d/custom.conf:/etc/nginx/conf.d/custom.conf:ro
     - ./nginx/html:/usr/share/nginx/html
   ports:
     - 80:80
@@ -43,9 +44,9 @@ worker:
     - db
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+    - TASK=worker
   volumes:
     - ./uploads:/loomio/public/system
-  command: "bundle exec rake jobs:work"
 
 db:
   restart: always
