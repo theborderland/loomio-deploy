@@ -35,6 +35,7 @@ loomio:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
     - ./uploads:/loomio/public/system
+    - ./files:/loomio/public/files
 
 worker:
   restart: always
@@ -47,6 +48,7 @@ worker:
     - TASK=worker
   volumes:
     - ./uploads:/loomio/public/system
+    - ./files:/loomio/public/files
 
 db:
   restart: always
