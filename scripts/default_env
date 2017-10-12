@@ -30,6 +30,13 @@ REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
 HELPER_BOT_EMAIL=no-reply@REPLACE_WITH_HOSTNAME
 RAILS_ENV=production
 
+# Number of webserver processes and threads
+# threads are per worker. See https://github.com/puma/puma
+PUMA_WORKERS=2
+MIN_THREADS=2
+MAX_THREADS=8
+
+# Force all connections to be https
 # This breaks inbound email in single host mode
 # FORCE_SSL=1
 
