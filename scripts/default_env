@@ -25,6 +25,7 @@ SMTP_PASSWORD=smtppassword
 
 FAYE_URL=https://faye.REPLACE_WITH_HOSTNAME/faye
 REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
+WEBHOOK_URL=https://REPLACE_WITH_HOSTNAME/email_processor
 
 # helper bot is the account which welcomes people to their groups.
 HELPER_BOT_EMAIL=no-reply@REPLACE_WITH_HOSTNAME
@@ -37,8 +38,7 @@ MIN_THREADS=2
 MAX_THREADS=8
 
 # Force all connections to be https
-# This breaks inbound email in single host mode
-# FORCE_SSL=1
+FORCE_SSL=1
 
 # Errbit
 # ERRBIT_HOST
