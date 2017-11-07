@@ -40,6 +40,9 @@ MAX_THREADS=8
 # Force all connections to be https
 FORCE_SSL=1
 
+# Enable rate limiting on group creation, other POST actions
+USE_RACK_ATTACK=1
+
 # Errbit
 # ERRBIT_HOST
 # ERRBIT_KEY
