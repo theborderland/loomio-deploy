@@ -62,11 +62,12 @@ db:
 mailin:
   restart: always
   image: loomio/mailin-docker
-  env_file: ./env
   ports:
     - "25:25"
   links:
     - loomio
+  environment:
+    - WEBHOOK_URL=http://loomio:3000/email_processor/
 
 faye:
   restart: always
