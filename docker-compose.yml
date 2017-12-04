@@ -36,6 +36,7 @@ loomio:
   volumes:
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
+    - ./plugins:/loomio/plugins/docker
 
 worker:
   restart: always
@@ -49,6 +50,7 @@ worker:
   volumes:
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
+    - ./plugins:/loomio/plugins/docker
 
 db:
   restart: always
