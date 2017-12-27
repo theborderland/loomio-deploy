@@ -2,8 +2,7 @@ FROM ruby:2.3.5
 
 COPY Gemfile.lock Gemfile private_pub.ru /loomio-faye/
 WORKDIR /loomio-faye
-RUN gem install private_pub --debug --backtrace --verbose
-RUN gem install thin --debug --backtrace --verbose
+RUN bundle install --verbose
 EXPOSE 3000
 
 CMD thin --port 3000 \
