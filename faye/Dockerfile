@@ -1,9 +1,7 @@
 FROM ruby:2.3.5
 
 COPY Gemfile.lock Gemfile private_pub.ru /loomio-faye/
-RUN ls
 WORKDIR /loomio-faye
-RUN ls
 RUN gem install private_pub --debug --backtrace --verbose
 RUN gem install thin --debug --backtrace --verbose
 EXPOSE 3000
