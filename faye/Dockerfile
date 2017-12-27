@@ -1,8 +1,11 @@
 FROM ruby:2.3.5
 
-RUN git config --global url."https://github.com/".insteadOf git@github.com:
 COPY Gemfile.lock Gemfile private_pub.ru /loomio-faye/
+RUN ls
 WORKDIR /loomio-faye
+RUN ls
+RUN gem install private_pub
+RUN gem install thin
 RUN bundle install
 EXPOSE 3000
 
