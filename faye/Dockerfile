@@ -1,5 +1,6 @@
 FROM ruby:2.3.5
 
+RUN git config --global url."https://github.com/".insteadOf git@github.com:
 COPY Gemfile.lock Gemfile private_pub.ru /loomio-faye/
 WORKDIR /loomio-faye
 RUN bundle install
