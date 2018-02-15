@@ -25,12 +25,6 @@ To allow people to access the site via your hostname you need an A record:
 A loomio.example.com, 123.123.123.123
 ```
 
-You also need to setup a CNAME record for the live update service
-
-```
-CNAME faye.loomio.example.com, loomio.example.com
-```
-
 Loomio supports "Reply by email" and to enable this you need an MX record so mail servers know where to direct these emails.
 
 ```

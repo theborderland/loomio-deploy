@@ -21,7 +21,6 @@ nginx:
     - 443:443
   links:
     - loomio
-    - faye
 
 loomio:
   restart: always
@@ -31,6 +30,7 @@ loomio:
   env_file: ./env
   links:
     - db
+    - redis
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
@@ -73,7 +73,6 @@ mailin:
   environment:
     - WEBHOOK_URL=http://loomio:3000/email_processor/
 
-faye:
+redis:
+  image: redis:4.0
   restart: always
-  build: faye/.
-  env_file: ./faye_env
