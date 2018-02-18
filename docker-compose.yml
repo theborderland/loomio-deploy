@@ -24,7 +24,7 @@ nginx:
 
 loomio:
   restart: always
-  image: loomio/loomio:stable
+  image: loomio/loomio:actioncable
   expose:
     - 3000
   env_file: ./env
@@ -41,7 +41,7 @@ loomio:
 
 worker:
   restart: always
-  image: loomio/loomio:stable
+  image: loomio/loomio:actioncable
   env_file: ./env
   links:
     - db
