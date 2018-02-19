@@ -33,6 +33,7 @@ loomio:
     - redis
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+    - REDIS_URL=redis://redis:6379
   volumes:
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
@@ -47,6 +48,7 @@ worker:
     - db
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+    - REDIS_URL=redis://redis:6379
     - TASK=worker
   volumes:
     - ./uploads:/loomio/public/system
