@@ -30,7 +30,6 @@ loomio:
   env_file: ./env
   links:
     - db
-    - redis
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
