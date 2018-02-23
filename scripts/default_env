@@ -53,6 +53,7 @@ USE_RACK_ATTACK=1
 # FEATURES_DISABLE_CREATE_GROUP=1    # users cannot create groups
 # FEATURES_DISABLE_PUBLIC_GROUPS=1   # disable /explore
 # FEATURES_DISABLE_HELP_LINK=1       # disable the help link
+# MAX_PENDING_INVITATIONS=100        # maximum unaccepted invitations a group have have
 
 # Enable search engines to index public content
 # ALLOW_ROBOTS=1
