@@ -73,7 +73,7 @@ This script will create and mount a 4GB swapfile. If you have less than 2GB RAM 
 ```
 
 ### Create your ENV files
-This script creates `env` and `faye_env` files configured for you. It also creates directories on the host to hold user data.
+This script creates `env` files configured for you. It also creates directories on the host to hold user data.
 
 When you run this, remember to change `loomio.example.com` to your hostname, and give your contact email address, so you can recover your SSL keys later if required.
 
@@ -85,12 +85,6 @@ Now have a look inside the files:
 
 ```sh
 cat env
-```
-
-and
-
-```sh
-cat faye_env
 ```
 
 ### Usage reporting
@@ -195,9 +189,9 @@ test that proposal closing soon works.
 
 
 ## If something goes wrong
-Confirm `env` and `faye_env` settings are correct.
+Confirm `env` settings are correct.
 
-After you change your `env` or `faye_env` files you need to restart the system:
+After you change your `env` files you need to restart the system:
 
 ```sh
 docker-compose down
@@ -238,7 +232,6 @@ Things you want to consider when designing a proper backup policy:
 
 * `loomio-deploy/uploads`
 * `loomio-deploy/env`
-* `loomio-deploy/faye-env`
 
 And a database dump:
 
