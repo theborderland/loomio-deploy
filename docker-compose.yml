@@ -25,7 +25,7 @@ nginx:
 
 loomio:
   restart: always
-  image: aerugo/loomio:stable
+  image: aerugo/loomio:latest
   expose:
     - 3000
   env_file: ./env
