@@ -23,7 +23,6 @@ nginx:
     - loomio
 
 loomio:
-  restart: always
   image: ${LOOMIO_CONTAINER_IMAGE}:${LOOMIO_CONTAINER_TAG}
   expose:
     - 3000
