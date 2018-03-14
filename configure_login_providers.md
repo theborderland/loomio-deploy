@@ -16,5 +16,4 @@ For twitter, [create your app](https://apps.twitter.com/)
 -- Authorized redirect URIs: **https://loomio.example.com/google/authorize**
 - domain verification: https://loomio.example.com
 
-
 Please feel free to update this file and make a pull request. More details and screenshots would be appreciated. Thanks to xavier dutoit for getting this started.

@@ -3,6 +3,7 @@ CANONICAL_HOST=REPLACE_WITH_HOSTNAME
 
 # this is to tell nginx that you want requests for this hostname to come to the app
 VIRTUAL_HOST=REPLACE_WITH_HOSTNAME
+SITE_NAME=REPLACE_WITH_HOSTNAME
 
 # this is to configure letsencrypt to automatically issue and renew your hostname
 LETSENCRYPT_HOST=REPLACE_WITH_HOSTNAME
@@ -52,6 +53,7 @@ USE_RACK_ATTACK=1
 # FEATURES_DISABLE_CREATE_GROUP=1    # users cannot create groups
 # FEATURES_DISABLE_PUBLIC_GROUPS=1   # disable /explore
 # FEATURES_DISABLE_HELP_LINK=1       # disable the help link
+# MAX_PENDING_INVITATIONS=100        # maximum unaccepted invitations a group have have
 
 # Enable search engines to index public content
 # ALLOW_ROBOTS=1
