@@ -42,6 +42,14 @@ FORCE_SSL=1
 # Enable rate limiting on group creation, other POST actions
 USE_RACK_ATTACK=1
 
+# Send catch up email (missed yesterday) weekly
+# EMAIL_CATCH_UP_WEEKLY=1
+
+# subscribe on participation default for new users
+# uncomment this to change "subscribe on participation" to be false for new users
+# EMAIL_ON_PARTICIPATION_DEFAULT_FALSE=1
+#
+#
 # Errbit
 # ERRBIT_HOST
 # ERRBIT_KEY
