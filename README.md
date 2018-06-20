@@ -179,14 +179,6 @@ User.last.update(is_admin: true)
 
 you can now access the admin interface at https://loomio.example.com/admin
 
-## Test the functionality
-Test that email is working by visiting `https://loomio.example.com/users/password/new` and get a password reset link sent to you.
-
-Test that live update works with two tabs on the same discussion, write a comment in one, and it should appear in the other.
-Test that you can upload files into a thread.
-Test that you can reply by email.
-test that proposal closing soon works.
-
 
 ## If something goes wrong
 Confirm `env` settings are correct.
