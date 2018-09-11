@@ -55,7 +55,7 @@ worker:
 
 db:
   restart: always
-  image: postgres:9.6
+  image: postgres:10.5
   volumes:
     - ./pgdata:/pgdata
   environment:
