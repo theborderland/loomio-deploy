@@ -1,7 +1,10 @@
-/env
-/faye_env
-/pgdata
-/uploads
-/certificates
-/nginx
+env
+faye_env
+pgdata
+uploads
+certificates
+nginx
+backups
+plugins
 .DS_store
+*.pg_dump
