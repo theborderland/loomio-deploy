@@ -5,7 +5,7 @@ SOURCE_DIR=$(cd `dirname $0` && pwd)/..
 BACKUP_DIR=$SOURCE_DIR/backups
 DB_DUMP=$SOURCE_DIR/loomio_production.pg_dump
 DEST_FILE=$BACKUP_DIR/`hostname`-`date '+%u'`.tgz
-ERROR_FILE=BACKUP_DIR/error.log
+ERROR_FILE=$BACKUP_DIR/error.log
 
 echo "db dump file: $DB_DUMP"
 echo "backup file: $DEST_FILE"
