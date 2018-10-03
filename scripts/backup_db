@@ -1,4 +1,4 @@
 #!/bin/bash
 # run as scripts/backup_db loomio-deploy-db_1
 # or find appropriate container name with docker ps
-docker exec -ti $1 su - postgres -c 'pg_dump -O -Fc loomio_production -f /dumps/latest.dump'
+docker exec $1 su - postgres -c 'pg_dump -O -Fc loomio_production -f /dumps/latest.dump'
