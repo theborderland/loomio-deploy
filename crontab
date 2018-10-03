@@ -1,5 +1,0 @@
-# minute (0-59), hour (0-23, 0 = midnight), day (1-31), month (1-12), weekday (0-6, 0 = Sunday), command
-
-# every hour at the beginning of the hour
-0 * * * *  root docker exec loomiodeploy_worker_1 bundle exec rake loomio:hourly_tasks
-

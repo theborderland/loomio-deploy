@@ -1,12 +1,14 @@
 # Deploy your own Loomio
 
-This repo contains a basic docker-compose configuration for running Loomio on your own *server*, with a domain name. If you just want a local install of Loomio with no domain, please follow the [development handbook](https://github.com/loomio/loomio/blob/master/docs/en/development_handbook/setup_environment.md).
+This repo contains a docker-compose configuration for running Loomio on your own server and domain name.
 
-It assumes you want to run everything on a single host. It automatically issues
-an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
+It assumes you want to run everything on a single host and automatically issues an SSL certificate via the amazing [letsencrypt.org](https://letsencrypt.org/).
+
+If you want a local install of Loomio to develop features with, please visit the [development handbook](https://help.loomio.org/en/dev_manual/setup_dev_environment/).
+
 
 ## What you'll need
-* Root access to a server, on a public IP address, running a default configuration of Ubuntu 14.04 x64.
+* Root access to a server, on a public IP address, running a default configuration of Ubuntu 18.04.
 
 * A domain name which you can create DNS records for.
 
@@ -43,16 +45,22 @@ ssh -A root@loomio.example.com
 
 ### Install docker and docker-compose
 
-These commands install docker and docker-compose, copy and paste.
+There are many ways to install docker. Here is one way to do so, as described in the [Docker Documentation](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-convenience-script).
 
 ```sh
-wget -qO- https://get.docker.com/ | sh
-wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m`
-chmod +x /usr/local/bin/docker-compose
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 ```
 
-### Clone the loomio-deploy git repository
-This is the place where all the configuration for your Loomio services will live. In this step you make a copy of this repo, so that you can modify the settings to work for your particular setup.
+These commands fetch and install docker-compose
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+### Clone the loomio-deploy repo
+This where all the configuration for your Loomio services will live. In this step you make a copy of this repo, so that you can modify the settings to work for your particular setup.
 
 As root on your server, clone this repo:
 
@@ -73,9 +81,9 @@ This script will create and mount a 4GB swapfile. If you have less than 2GB RAM 
 ```
 
 ### Create your ENV files
-This script creates `env` files configured for you. It also creates directories on the host to hold user data.
+This script creates `env` files configured for your server. It also creates directories on the host to hold user data.
 
-When you run this, remember to change `loomio.example.com` to your hostname, and give your contact email address, so you can recover your SSL keys later if required.
+When you run this, remember to swap `loomio.example.com` for your hostname, and give your contact email address, so you can recover your SSL keys later if required.
 
 ```sh
 ./scripts/create_env loomio.example.com you@contact.email
@@ -87,11 +95,11 @@ Now have a look inside the files:
 cat env
 ```
 
-### Usage reporting
+### Basic usage reporting
 
-By default your Loomio instance will report back to www.loomio.org with the number of discussions, comments, polls, stances, users and visits that your site has had.
+By default your Loomio instance will report back to www.loomio.org once a day with the number of discussions, comments, polls, stances, users and visits that your site has had.
 
-Once per day it will send those numbers and your hostname to us, so that we are able to measure Loomio usage around the world, so that we can tell what impact our work is having.
+We encourage you not to disable this, so that we can tell what impact our work is having, which in turn helps us to continue to develop Loomio.
 
 If you wish to disable this reporting function, add the following line to your `env` file
 
@@ -99,25 +107,19 @@ If you wish to disable this reporting function, add the following line to your `
 DISABLE_USAGE_REPORTING=1
 ```
 
-### Setup SMTP
+### Configure SMTP settings
 
-Loomio is technically broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
+Loomio requires an SMTP server to function. In this step you need to edit your `env` file and configure the SMTP settings for outbound emails.
 
-So, you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
+Edit the `env` file and enter the correct SMTP settings for your setup.
 
-- For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
+If you already an SMTP server you can use, that's great, add the config to your env file (see the SMTP_ prefixed variables).
 
-- Look at the (sometimes free) services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
+Those of you without an existing SMTP server, may wish to use a service such as: [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/),
+[Mailgun](http://www.mailgun.com/),
+[Mailjet](https://www.mailjet.com/pricing), or run your own SMTP with [Haraka](https://haraka.github.io/manual/tutorials/SettingUpOutbound.html)
 
-- Soon we'll publish a guide to setting up your own private and secure SMTP server.
-
-Edit the `env` file and enter the right SMTP settings for your setup.
-
-You might need to add an SPF record to indicate that the SMTP can send mail for your domain.
-
-```sh
-nano env
-```
+You should add an SPF record to indicate that the SMTP can send mail for your loomio domain.
 
 ### Initialize the database
 This command initializes a new database for your Loomio instance to use.
@@ -139,13 +141,6 @@ The following command appends some lines of text onto the system crontab file.
 cat crontab >> /etc/crontab
 ```
 
-### Sign in via third party
-
-If you want to allow users to sign in via Google, Facebook, Twitter or Github, then you'll need to add APP_KEY and APP_SECRET env lines for each provider you wish to support.
-
-You'll find env records for these providers commented out in your env file by default.
-
-[Here's how to get provider specific details](configure_login_providers.md)
 
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
@@ -216,6 +211,24 @@ A PostgreSQL shell to inspect the database:
 ```sh
 docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
 ```
+
+### Sign in via third party
+
+If you want to allow users to sign in via Google, Facebook, Twitter or Github, then you'll need to add APP_KEY and APP_SECRET env lines for each provider you wish to support.
+
+You'll find env records for these providers commented out in your env file by default.
+
+To register your app with Facebook, visit https://developers.facebook.com
+
+For twitter, https://apps.twitter.com/
+- Website: https://loomio.example.com
+- callback url: https://loomio.example.com/twitter/authorize
+
+For Google: https://console.developers.google.com/
+- Authorized JavaScript origins: https://loomio.example.com
+- Authorized redirect URIs: https://loomio.example.com/google/authorize
+- domain verification: https://loomio.example.com
+
 
 ## Building a backup policy
 Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
