@@ -125,22 +125,8 @@ You should add an SPF record to indicate that the SMTP can send mail for your lo
 This command initializes a new database for your Loomio instance to use.
 
 ```
-docker-compose run loomio rake db:setup
+docker-compose run app rake db:setup
 ```
-
-### Install crontab
-Doing this tells the server what regular tasks it needs to run. These tasks include:
-
-* Noticing which proposals are closing in 24 hours and notifying users.
-* Closing proposals and notifying users they have closed.
-* Sending "Yesterday on Loomio", a digest of activity users have not already read. This is sent to users at 6am in their local timezone.
-
-The following command appends some lines of text onto the system crontab file.
-
-```
-cat crontab >> /etc/crontab
-```
-
 
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
@@ -168,7 +154,7 @@ visit your hostname in your browser.
 Once you have signed in (and confirmed your email), grant yourself admin rights
 
 ```
-docker-compose run loomio rails c
+docker-compose run app rails c
 User.last.update(is_admin: true)
 ```
 
@@ -190,20 +176,20 @@ To update Loomio to the latest image you'll need to stop, rm, pull, apply potent
 ```sh
 docker-compose down
 docker-compose pull
-docker-compose run loomio rake db:migrate
+docker-compose run app rake db:migrate
 docker-compose up -d
 ```
 
-From time to time, or if you are running out of disk space (check `/var/lib/docker`):
+From time to time, or if you are running out of disk space
 
 ```sh
-docker rmi $(docker images -f "dangling=true" -q)
+docker system prune
 ```
 
 To login to your running rails app console:
 
 ```sh
-docker-compose run loomio rails console
+docker-compose run app rails console
 ```
 
 A PostgreSQL shell to inspect the database:
