@@ -36,7 +36,6 @@ loomio:
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
-    - ./client:/loomio/public/client
 
 worker:
   restart: always
