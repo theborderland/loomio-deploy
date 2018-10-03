@@ -55,9 +55,10 @@ worker:
 
 db:
   restart: always
-  image: postgres:10.5
+  image: postgres:${POSTGRES_CONTAINER_TAG}
   volumes:
     - ./pgdata:/pgdata
+    - ./dumps:/dumps
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
