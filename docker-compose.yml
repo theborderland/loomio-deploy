@@ -52,12 +52,6 @@ worker:
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
 
-scheduler:
-  restart: always
-  image: mcuadros/ofelia:latest
-  volumes:
-    - ./scheduler:/etc/ofelia
-
 db:
   restart: always
   image: postgres:${POSTGRES_CONTAINER_TAG}
