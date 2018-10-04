@@ -195,7 +195,7 @@ docker-compose run app rails console
 A PostgreSQL shell to inspect the database:
 
 ```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
+docker exec -ti loomio-db su - postgres -c 'psql loomio_production'
 ```
 
 ### Sign in via third party
@@ -216,26 +216,17 @@ For Google: https://console.developers.google.com/
 - domain verification: https://loomio.example.com
 
 
-## Building a backup policy
-Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
+## Backups
 
-Things you want to consider when designing a proper backup policy:
+There is a backup script: script/backups. Run it like so:
 
-* `loomio-deploy/uploads`
-* `loomio-deploy/env`
-
-And a database dump:
-
-```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'pg_dump loomio_production' \
-  | xz \
-  > $(date +%Y-%m-%d_%H:%M).pg_dump.xz
+```
+scripts/backup .
 ```
 
-Be sure you exclude `loomio-deploy/pgdata` — all you need from the database is in the dump.
+Or add it to your crontab. 
 
-## Connecting the Slack app with your instance
-[Click here](/SLACK.md) for more info on how to connect the loomio slack bot to your instance.
+It's your responsibility to copy the backup tarball somewhere.
 
 
 *Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
