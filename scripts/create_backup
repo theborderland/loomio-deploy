@@ -1,0 +1,15 @@
+#!/bin/bash
+# run as: scripts/backup_fs .
+source .env
+SOURCE_DIR=$1
+BACKUP_DIR=$SOURCE_DIR/backups
+DAY_OF_MONTH=`date '+%d'`
+MOD_DAYS=$(($DAY_OF_MONTH % $BACKUP_RETENTION_DAYS))
+DEST_FILE=$BACKUP_DIR/`hostname`-$MOD_DAYS.tgz
+
+echo "writing database dump: /pgdumps/loomio_production.dump"
+docker exec loomio-db su - postgres -c 'pg_dump -O -Fc loomio_production -f /pgdumps/loomio_production.dump'
+
+echo "writing backup file: $DEST_FILE"
+mkdir -p $BACKUP_DIR
+tar cvzf $DEST_FILE -X $SOURCE_DIR/.backup-ignore $SOURCE_DIR

@@ -8,3 +8,4 @@ backups
 plugins
 .DS_store
 *.pg_dump
+pgdumps
