@@ -111,8 +111,6 @@ DISABLE_USAGE_REPORTING=1
 
 Loomio requires an SMTP server to function. In this step you need to edit your `env` file and configure the SMTP settings for outbound emails.
 
-Edit the `env` file and enter the correct SMTP settings for your setup.
-
 If you already an SMTP server you can use, that's great, add the config to your env file (see the SMTP_ prefixed variables).
 
 Those of you without an existing SMTP server, may wish to use a service such as: [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/),
