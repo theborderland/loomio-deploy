@@ -133,17 +133,6 @@ This command starts the database, application, reply-by-email, and live-update s
 docker-compose up -d
 ```
 
-You'll want to see the logs as it all starts, run the following command:
-
-```
-docker-compose logs
-```
-
-You might like to keep an additional console open by your side to watch for potential errors or warnings:
-
-```
-docker-compose logs -f
-```
 
 ## Try it out
 
@@ -160,9 +149,14 @@ you can now access the admin interface at https://loomio.example.com/admin
 
 
 ## If something goes wrong
-Confirm `env` settings are correct.
 
-After you change your `env` files you need to restart the system:
+Check the logs. These will almost always tell you what the problem is.
+
+```
+docker-compose logs -f
+```
+
+Confirm `env` settings are correct. After you change your `env` files you need to restart the system:
 
 ```sh
 docker-compose down
