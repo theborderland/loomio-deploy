@@ -1,9 +1,9 @@
 #!/bin/bash
 # run as: scripts/backup_fs .
-source .env
 SOURCE_DIR=$1
 BACKUP_DIR=$SOURCE_DIR/backups
 DAY_OF_MONTH=`date '+%d'`
+BACKUP_RETENTION_DAYS=1
 MOD_DAYS=$(($DAY_OF_MONTH % $BACKUP_RETENTION_DAYS))
 DEST_FILE=$BACKUP_DIR/`hostname`-$MOD_DAYS.tgz
 
