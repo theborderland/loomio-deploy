@@ -23,6 +23,7 @@ nginx:
     - app
 
 app:
+  container_name: loomio-app
   restart: always
   image: ${LOOMIO_CONTAINER_IMAGE}:${LOOMIO_CONTAINER_TAG}
   expose:
@@ -38,9 +39,9 @@ app:
     - ./plugins:/loomio/plugins/docker
 
 worker:
+  container_name: loomio-worker
   restart: always
   image: ${LOOMIO_CONTAINER_IMAGE}:${LOOMIO_CONTAINER_TAG}
-  container_name: loomio-worker
   env_file: ./env
   links:
     - db
@@ -53,9 +54,9 @@ worker:
     - ./plugins:/loomio/plugins/docker
 
 db:
+  container_name: loomio-db
   restart: always
   image: postgres:${POSTGRES_CONTAINER_TAG}
-  container_name: loomio-db
   volumes:
     - ./pgdata:/pgdata
     - ./pgdumps:/pgdumps
@@ -64,6 +65,7 @@ db:
    - PGDATA=/pgdata
 
 mailin:
+  container_name: loomio-mailin
   restart: always
   image: ${MAILIN_CONTAINER_IMAGE}:${MAILIN_CONTAINER_TAG}
   ports:
