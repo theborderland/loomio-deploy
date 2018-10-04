@@ -1,4 +1,5 @@
 letsencrypt:
+  container_name: loomio-letsencrypt
   restart: always
   image: jrcs/letsencrypt-nginx-proxy-companion
   volumes:
@@ -8,6 +9,7 @@ letsencrypt:
     - nginx
 
 nginx:
+  container_name: loomio-nginx
   restart: always
   image: jwilder/nginx-proxy
   volumes:
