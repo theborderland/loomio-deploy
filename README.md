@@ -126,6 +126,19 @@ This command initializes a new database for your Loomio instance to use.
 docker-compose run app rake db:setup
 ```
 
+### Setup crontab
+
+To edit your crontab use:
+```
+crontab -e
+```
+
+and paste the following lines in there
+
+```
+0 * * * *  docker exec loomio-worker bundle exec rake loomio:hourly_tasks
+```
+
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
 
@@ -210,15 +223,20 @@ For Google: https://console.developers.google.com/
 
 ## Backups
 
-There is a backup script: script/backups. Run it like so:
+There is a simple backup script, intended to be run daily.
+
+Run it manually like so:
 
 ```
 scripts/backup .
 ```
 
-Or add it to your crontab. 
+Or add a line to your crontab like so:
 
-It's your responsibility to copy the backup tarball somewhere.
+```
+0 0 * * *  /root/loomio-deploy/scripts/create_backup /root/loomio-deploy > ~/loomio-deploy-backup.log 2>&1
+```
 
+It's left as an exercise for you to copy the backup tarball somewhere after it is created.
 
 *Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
