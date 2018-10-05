@@ -1,8 +1,10 @@
 # Deploy your own Loomio
 
-This repo contains a basic docker-compose configuration for running Loomio on your own *server*, with a domain name. If you just want a local install of Loomio with no domain, please follow the [development handbook](https://github.com/loomio/loomio/blob/master/docs/en/development_handbook/setup_environment.md).
+This repo contains a docker-compose configuration for running Loomio on your own server.
 
-It assumes you want to run everything on a single host. It automatically issues
+If you just want a local install of Loomio for development, see [Setting up a Loomio development environment](https://help.loomio.org/en/dev_manual/setup_dev_environment/).
+
+It runs mutlitple services on a single host with docker and docker-compose. It automatically issues
 an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
@@ -10,7 +12,7 @@ an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt
 
 * A domain name which you can create DNS records for.
 
-* An SMTP server for sending email. More on that below.
+* An SMTP server for sending email.
 
 ## Network configuration
 What hostname will you be using for your Loomio instance? What is the IP address of your server?
@@ -46,8 +48,9 @@ ssh -A root@loomio.example.com
 These commands install docker and docker-compose, copy and paste.
 
 ```sh
-wget -qO- https://get.docker.com/ | sh
-wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m`
+curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
@@ -194,7 +197,7 @@ docker-compose up -d
 From time to time, or if you are running out of disk space (check `/var/lib/docker`):
 
 ```sh
-docker purge
+docker system prune
 ```
 
 To login to your running rails app console:
@@ -213,9 +216,12 @@ docker exec -ti loomio-db su - postgres -c 'psql loomio_production'
 We have provided a simple backup script to create a tgz file with a database dump and all the user uploads and system config.
 
 ```
-scripts/create_backup
+scripts/create_backup .
 ```
-
 Your backup will be in loomio-deploy/backups/
 
-It's up to you to copy this off the host to a safe place
+You may wish to add a crontab entry like this. I'll leave it up to you to configure s3cmd and your aws bucket.
+```
+0 0 * * *  ~/loomio-deploy/scripts/create_backup ~/loomio-deploy > ~/backup.log 2>&1; s3cmd put ~/loomio-deploy/backups/* s3://somebucket/$(date +\%F)/ > ~/s3cmd.log 2>&1
+
+```
