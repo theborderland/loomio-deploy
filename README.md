@@ -101,19 +101,19 @@ DISABLE_USAGE_REPORTING=1
 
 ### Setup SMTP
 
-Loomio is technically broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
+You need to bring your own SMTP server for Loomio to send emails. 
 
-So, you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
+If you already have and SMTP, that's great, put the settings into the `env` file. 
 
-- For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
+For everyone else here are some options to consider:
 
 - Look at the (sometimes free) services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
 
-- Soon we'll publish a guide to setting up your own private and secure SMTP server.
+- Setup your own SMTP server with something like Haraka
 
 Edit the `env` file and enter the right SMTP settings for your setup.
 
-You might need to add an SPF record to indicate that the SMTP can send mail for your domain.
+You might also need to add an SPF DNS record to indicate that the SMTP can send mail for your domain.
 
 ```sh
 nano env
@@ -138,14 +138,6 @@ Run `crontab -e` and apped the following line:
 ```
 0 * * * *  docker exec loomio-worker bundle exec rake loomio:hourly_tasks
 ```
-
-### Sign in via third party
-
-If you want to allow users to sign in via Google, Facebook, Twitter or Github, then you'll need to add APP_KEY and APP_SECRET env lines for each provider you wish to support.
-
-You'll find env records for these providers commented out in your env file by default.
-
-[Here's how to get provider specific details](configure_login_providers.md)
 
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
@@ -195,7 +187,7 @@ To update Loomio to the latest image you'll need to stop, rm, pull, apply potent
 ```sh
 docker-compose down
 docker-compose pull
-docker-compose run loomio rake db:migrate
+docker exec -ti loomio-app rake db:migrate
 docker-compose up -d
 ```
 
@@ -208,35 +200,22 @@ docker purge
 To login to your running rails app console:
 
 ```sh
-docker-compose run loomio rails console
+docker exec -ti loomio-app rails console
 ```
 
 A PostgreSQL shell to inspect the database:
 
 ```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
+docker exec -ti loomio-db su - postgres -c 'psql loomio_production'
 ```
 
-## Building a backup policy
-Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
+## Backups
+We have provided a simple backup script to create a tgz file with a database dump and all the user uploads and system config.
 
-Things you want to consider when designing a proper backup policy:
-
-* `loomio-deploy/uploads`
-* `loomio-deploy/env`
-
-And a database dump:
-
-```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'pg_dump loomio_production' \
-  | xz \
-  > $(date +%Y-%m-%d_%H:%M).pg_dump.xz
+```
+scripts/create_backup
 ```
 
-Be sure you exclude `loomio-deploy/pgdata` — all you need from the database is in the dump.
+Your backup will be in loomio-deploy/backups/
 
-## Connecting the Slack app with your instance
-[Click here](/SLACK.md) for more info on how to connect the loomio slack bot to your instance.
-
-
-*Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
+It's up to you to copy this off the host to a safe place
