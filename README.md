@@ -8,7 +8,7 @@ It runs mutlitple services on a single host with docker and docker-compose. It a
 an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
-* Root access to a server, on a public IP address, running a default configuration of Ubuntu 14.04 x64.
+* Root access to a server, on a public IP address, running a default configuration of Ubuntu 18.04.
 
 * A domain name which you can create DNS records for.
 
