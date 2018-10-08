@@ -36,6 +36,7 @@ app:
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
+    - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
@@ -51,6 +52,7 @@ worker:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
     - TASK=worker
   volumes:
+    - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
