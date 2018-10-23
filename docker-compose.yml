@@ -40,6 +40,7 @@ app:
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
+    - ./import:/import
 
 worker:
   container_name: loomio-worker
