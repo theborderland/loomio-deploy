@@ -126,7 +126,7 @@ nano env
 This command initializes a new database for your Loomio instance to use.
 
 ```
-docker-compose run loomio rake db:setup
+docker-compose run app rake db:setup
 ```
 
 ### Install crontab
