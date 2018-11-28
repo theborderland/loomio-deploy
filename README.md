@@ -168,7 +168,7 @@ visit your hostname in your browser.
 Once you have signed in (and confirmed your email), grant yourself admin rights
 
 ```
-docker-compose run loomio rails c
+docker-compose run app rails c
 User.last.update(is_admin: true)
 ```
 
