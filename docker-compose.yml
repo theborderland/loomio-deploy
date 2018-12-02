@@ -1,4 +1,5 @@
 letsencrypt:
+  container_name: loomio-letsencrypt
   restart: always
   image: jrcs/letsencrypt-nginx-proxy-companion
   volumes:
@@ -8,6 +9,7 @@ letsencrypt:
     - nginx
 
 nginx:
+  container_name: loomio-nginx
   restart: always
   image: jwilder/nginx-proxy
   volumes:
@@ -20,9 +22,11 @@ nginx:
     - 80:80
     - 443:443
   links:
-    - loomio
+    - app
 
-loomio:
+app:
+  container_name: loomio-app
+  restart: always
   image: ${LOOMIO_CONTAINER_IMAGE}:${LOOMIO_CONTAINER_TAG}
   expose:
     - 3000
@@ -32,12 +36,14 @@ loomio:
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
+    - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
-    - ./client:/loomio/public/client
+    - ./import:/import
 
 worker:
+  container_name: loomio-worker
   restart: always
   image: ${LOOMIO_CONTAINER_IMAGE}:${LOOMIO_CONTAINER_TAG}
   env_file: ./env
@@ -47,26 +53,29 @@ worker:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
     - TASK=worker
   volumes:
+    - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
-    - ./client:/loomio/public/client
 
 db:
+  container_name: loomio-db
   restart: always
-  image: postgres:9.6
+  image: postgres:${POSTGRES_CONTAINER_TAG}
   volumes:
     - ./pgdata:/pgdata
+    - ./pgdumps:/pgdumps
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
 
 mailin:
+  container_name: loomio-mailin
   restart: always
   image: ${MAILIN_CONTAINER_IMAGE}:${MAILIN_CONTAINER_TAG}
   ports:
     - "25:25"
   links:
-    - loomio
+    - app
   environment:
-    - WEBHOOK_URL=http://loomio:3000/email_processor/
+    - WEBHOOK_URL=http://app:3000/email_processor/
