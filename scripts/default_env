@@ -24,7 +24,6 @@ SMTP_PORT=465
 SMTP_USERNAME=smtpusername
 SMTP_PASSWORD=smtppassword
 
-FAYE_URL=https://faye.REPLACE_WITH_HOSTNAME/faye
 REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
 
 # helper bot is the account which welcomes people to their groups.
@@ -43,6 +42,14 @@ FORCE_SSL=1
 # Enable rate limiting on group creation, other POST actions
 USE_RACK_ATTACK=1
 
+# Send catch up email (missed yesterday) weekly
+# EMAIL_CATCH_UP_WEEKLY=1
+
+# subscribe on participation default for new users
+# uncomment this to change "subscribe on participation" to be false for new users
+# EMAIL_ON_PARTICIPATION_DEFAULT_FALSE=1
+#
+#
 # Errbit
 # ERRBIT_HOST
 # ERRBIT_KEY

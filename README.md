@@ -1,16 +1,18 @@
 # Deploy your own Loomio
 
-This repo contains a basic docker-compose configuration for running Loomio on your own *server*, with a domain name. If you just want a local install of Loomio with no domain, please follow the [development handbook](https://github.com/loomio/loomio/blob/master/docs/en/development_handbook/setup_environment.md).
+This repo contains a docker-compose configuration for running Loomio on your own server.
 
-It assumes you want to run everything on a single host. It automatically issues
+If you just want a local install of Loomio for development, see [Setting up a Loomio development environment](https://help.loomio.org/en/dev_manual/setup_dev_environment/).
+
+It runs mutlitple services on a single host with docker and docker-compose. It automatically issues
 an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
-* Root access to a server, on a public IP address, running a default configuration of Ubuntu 14.04 x64.
+* Root access to a server, on a public IP address, running a default configuration of Ubuntu 18.04.
 
 * A domain name which you can create DNS records for.
 
-* An SMTP server for sending email. More on that below.
+* An SMTP server for sending email.
 
 ## Network configuration
 What hostname will you be using for your Loomio instance? What is the IP address of your server?
@@ -46,8 +48,9 @@ ssh -A root@loomio.example.com
 These commands install docker and docker-compose, copy and paste.
 
 ```sh
-wget -qO- https://get.docker.com/ | sh
-wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m`
+curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
 
@@ -101,19 +104,19 @@ DISABLE_USAGE_REPORTING=1
 
 ### Setup SMTP
 
-Loomio is technically broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
+You need to bring your own SMTP server for Loomio to send emails. 
 
-So, you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
+If you already have and SMTP, that's great, put the settings into the `env` file. 
 
-- For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
+For everyone else here are some options to consider:
 
 - Look at the (sometimes free) services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
 
-- Soon we'll publish a guide to setting up your own private and secure SMTP server.
+- Setup your own SMTP server with something like Haraka
 
 Edit the `env` file and enter the right SMTP settings for your setup.
 
-You might need to add an SPF record to indicate that the SMTP can send mail for your domain.
+You might also need to add an SPF DNS record to indicate that the SMTP can send mail for your domain.
 
 ```sh
 nano env
@@ -123,7 +126,7 @@ nano env
 This command initializes a new database for your Loomio instance to use.
 
 ```
-docker-compose run loomio rake db:setup
+docker-compose run app rake db:setup
 ```
 
 ### Install crontab
@@ -133,19 +136,11 @@ Doing this tells the server what regular tasks it needs to run. These tasks incl
 * Closing proposals and notifying users they have closed.
 * Sending "Yesterday on Loomio", a digest of activity users have not already read. This is sent to users at 6am in their local timezone.
 
-The following command appends some lines of text onto the system crontab file.
+Run `crontab -e` and apped the following line:
 
 ```
-cat crontab >> /etc/crontab
+0 * * * *  docker exec loomio-worker bundle exec rake loomio:hourly_tasks
 ```
-
-### Sign in via third party
-
-If you want to allow users to sign in via Google, Facebook, Twitter or Github, then you'll need to add APP_KEY and APP_SECRET env lines for each provider you wish to support.
-
-You'll find env records for these providers commented out in your env file by default.
-
-[Here's how to get provider specific details](configure_login_providers.md)
 
 ## Starting the services
 This command starts the database, application, reply-by-email, and live-update services all at once.
@@ -173,19 +168,11 @@ visit your hostname in your browser.
 Once you have signed in (and confirmed your email), grant yourself admin rights
 
 ```
-docker-compose run loomio rails c
+docker-compose run app rails c
 User.last.update(is_admin: true)
 ```
 
 you can now access the admin interface at https://loomio.example.com/admin
-
-## Test the functionality
-Test that email is working by visiting `https://loomio.example.com/users/password/new` and get a password reset link sent to you.
-
-Test that live update works with two tabs on the same discussion, write a comment in one, and it should appear in the other.
-Test that you can upload files into a thread.
-Test that you can reply by email.
-test that proposal closing soon works.
 
 
 ## If something goes wrong
@@ -203,48 +190,38 @@ To update Loomio to the latest image you'll need to stop, rm, pull, apply potent
 ```sh
 docker-compose down
 docker-compose pull
-docker-compose run loomio rake db:migrate
+docker exec -ti loomio-app rake db:migrate
 docker-compose up -d
 ```
 
 From time to time, or if you are running out of disk space (check `/var/lib/docker`):
 
 ```sh
-docker rmi $(docker images -f "dangling=true" -q)
+docker system prune
 ```
 
 To login to your running rails app console:
 
 ```sh
-docker-compose run loomio rails console
+docker exec -ti loomio-app rails console
 ```
 
 A PostgreSQL shell to inspect the database:
 
 ```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
+docker exec -ti loomio-db su - postgres -c 'psql loomio_production'
 ```
 
-## Building a backup policy
-Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
+## Backups
+We have provided a simple backup script to create a tgz file with a database dump and all the user uploads and system config.
 
-Things you want to consider when designing a proper backup policy:
-
-* `loomio-deploy/uploads`
-* `loomio-deploy/env`
-
-And a database dump:
-
-```sh
-docker exec -ti loomiodeploy_db_1 su - postgres -c 'pg_dump loomio_production' \
-  | xz \
-  > $(date +%Y-%m-%d_%H:%M).pg_dump.xz
 ```
+scripts/create_backup .
+```
+Your backup will be in loomio-deploy/backups/
 
-Be sure you exclude `loomio-deploy/pgdata` — all you need from the database is in the dump.
+You may wish to add a crontab entry like this. I'll leave it up to you to configure s3cmd and your aws bucket.
+```
+0 0 * * *  ~/loomio-deploy/scripts/create_backup ~/loomio-deploy > ~/backup.log 2>&1; s3cmd put ~/loomio-deploy/backups/* s3://somebucket/$(date +\%F)/ > ~/s3cmd.log 2>&1
 
-## Connecting the Slack app with your instance
-[Click here](/SLACK.md) for more info on how to connect the loomio slack bot to your instance.
-
-
-*Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
+```
