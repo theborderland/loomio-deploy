@@ -33,8 +33,8 @@ RAILS_ENV=production
 # Number of webserver processes and threads
 # threads are per worker. See https://github.com/puma/puma
 PUMA_WORKERS=2
-MIN_THREADS=2
-MAX_THREADS=8
+MIN_THREADS=12
+MAX_THREADS=12
 
 # Force all connections to be https
 FORCE_SSL=1
@@ -48,12 +48,6 @@ USE_RACK_ATTACK=1
 # subscribe on participation default for new users
 # uncomment this to change "subscribe on participation" to be false for new users
 # EMAIL_ON_PARTICIPATION_DEFAULT_FALSE=1
-#
-#
-# Errbit
-# ERRBIT_HOST
-# ERRBIT_KEY
-# ERRBIT_PORT
 
 # Uncomment these to disable features
 # FEATURES_DISABLE_CREATE_USER=1     # users must be invited
