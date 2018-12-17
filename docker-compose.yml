@@ -33,8 +33,10 @@ app:
   env_file: ./env
   links:
     - db
+    - redis
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+    - REDIS_URL=redis://redis:6379
   volumes:
     - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
@@ -67,6 +69,11 @@ db:
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
+
+redis:
+  container_name: loomio-redis
+  restart: always
+  image: redis:5.0
 
 mailin:
   container_name: loomio-mailin
