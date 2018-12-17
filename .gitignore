@@ -1,7 +1,9 @@
 env
 faye_env
 pgdata
+client
 uploads
+files
 certificates
 nginx
 backups

@@ -48,8 +48,7 @@ ssh -A root@loomio.example.com
 These commands install docker and docker-compose, copy and paste.
 
 ```sh
-curl -fsSL get.docker.com -o get-docker.sh
-sh get-docker.sh
+snap install docker
 sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
@@ -126,7 +125,7 @@ nano env
 This command initializes a new database for your Loomio instance to use.
 
 ```
-docker-compose run loomio rake db:setup
+docker-compose run app rake db:setup
 ```
 
 ### Install crontab
@@ -168,7 +167,7 @@ visit your hostname in your browser.
 Once you have signed in (and confirmed your email), grant yourself admin rights
 
 ```
-docker-compose run loomio rails c
+docker-compose run app rails c
 User.last.update(is_admin: true)
 ```
 
