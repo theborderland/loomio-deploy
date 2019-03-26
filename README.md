@@ -187,10 +187,10 @@ docker-compose up -d
 To update Loomio to the latest image you'll need to stop, rm, pull, apply potential changes to the database schema, and run again.
 
 ```sh
-docker-compose down
 docker-compose pull
-docker exec -ti loomio-app rake db:migrate
+docker-compose down
 docker-compose up -d
+docker exec -ti loomio-app rake db:migrate
 ```
 
 From time to time, or if you are running out of disk space (check `/var/lib/docker`):
