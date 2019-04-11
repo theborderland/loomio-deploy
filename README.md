@@ -190,8 +190,8 @@ To update Loomio to the latest image you'll need to stop, rm, pull, apply potent
 ```sh
 docker-compose pull
 docker-compose down
+docker-compose run app rake db:migrate
 docker-compose up -d
-docker exec -ti loomio-app rake db:migrate
 ```
 
 From time to time, or if you are running out of disk space (check `/var/lib/docker`):
@@ -203,7 +203,7 @@ docker system prune
 To login to your running rails app console:
 
 ```sh
-docker exec -ti loomio-app rails console
+docker-compose run app rails c
 ```
 
 A PostgreSQL shell to inspect the database:
