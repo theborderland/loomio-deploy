@@ -95,7 +95,9 @@ By default your Loomio instance will report back to www.loomio.org with the numb
 
 Once per day it will send those numbers and your hostname to us, so that we are able to measure Loomio usage around the world, so that we can tell what impact our work is having.
 
-If you wish to disable this reporting function, add the following line to your `env` file
+If you wish to disable this reporting function, add the following line to your `env` file.
+
+My personal request is that you do not disable this, we currently know of only a few active Loomio installs, and if you're running one successfully we'd really love to know about it.
 
 ```
 DISABLE_USAGE_REPORTING=1
