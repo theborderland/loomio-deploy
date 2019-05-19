@@ -1,6 +1,6 @@
 # Deploy your own Loomio
 
-This repo contains a docker-compose configuration for running Loomio on your own server.
+This repo contains a docker-compose configuration for running Loomio on your own server. 
 
 If you just want a local install of Loomio for development, see [Setting up a Loomio development environment](https://help.loomio.org/en/dev_manual/setup_dev_environment/).
 
@@ -8,7 +8,7 @@ It runs mutlitple services on a single host with docker and docker-compose. It a
 an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
-* Root access to a server, on a public IP address, running a default configuration of Ubuntu 18.04.
+* Root access to a server, on a public IP address, running a recent Ubuntu with at least 1GB RAM (2GB recommended).
 
 * A domain name which you can create DNS records for.
 
