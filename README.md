@@ -127,6 +127,7 @@ nano env
 This command initializes a new database for your Loomio instance to use.
 
 ```
+docker-compose up -d db
 docker exec -ti loomio-db su - postgres -c 'createdb loomio_production'
 docker-compose run app rake db:setup
 ```
