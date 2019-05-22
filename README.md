@@ -159,12 +159,6 @@ If you visit the url with your browser and the rails server is not yet running, 
 You'll want to see the logs as it all starts, run the following command:
 
 ```
-docker-compose logs
-```
-
-You might like to keep an additional console open by your side to watch for potential errors or warnings:
-
-```
 docker-compose logs -f
 ```
 
