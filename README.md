@@ -93,15 +93,19 @@ cat env
 
 By default your Loomio instance will report back to www.loomio.org with the number of discussions, comments, polls, stances, users and visits that your site has had.
 
+To be super clear, this does not transfer private data: no user_ids, no user created content, no titles, no names. Simply a count of the number of records you have.
+
 Once per day it will send those numbers and your hostname to us, so that we are able to measure Loomio usage around the world, so that we can tell what impact our work is having.
 
 If you wish to disable this reporting function, add the following line to your `env` file.
 
-My personal request is that you do not disable this, we currently know of only a few active Loomio installs, and if you're running one successfully we'd really love to know about it.
-
 ```
 DISABLE_USAGE_REPORTING=1
 ```
+
+__My personal request is that you do not disable usage reporting__. I have worked on this project almost every day for more than 7 years. I give you that work for free, and in return I ask that you leave this usage reporting on, because otherwise I have no idea if my work is valued.
+
+I will only provide technical support for people who have not disabled usage reporting.
 
 ### Setup SMTP
 
