@@ -8,7 +8,7 @@ It runs mutlitple services on a single host with docker and docker-compose. It a
 an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
-* Root access to a server, on a public IP address, running a default configuration of Ubuntu 18.04.
+* Root access to a server, on a public IP address, running a recent Ubuntu with at least 1GB RAM (2GB recommended).
 
 * A domain name which you can create DNS records for.
 
@@ -48,8 +48,7 @@ ssh -A root@loomio.example.com
 These commands install docker and docker-compose, copy and paste.
 
 ```sh
-curl -fsSL get.docker.com -o get-docker.sh
-sh get-docker.sh
+snap install docker
 sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
@@ -94,19 +93,23 @@ cat env
 
 By default your Loomio instance will report back to www.loomio.org with the number of discussions, comments, polls, stances, users and visits that your site has had.
 
+To be super clear, this does not transfer private data: no user_ids, no user created content, no titles, no names. Simply a count of the number of records you have.
+
 Once per day it will send those numbers and your hostname to us, so that we are able to measure Loomio usage around the world, so that we can tell what impact our work is having.
 
-If you wish to disable this reporting function, add the following line to your `env` file
+If you wish to disable this reporting function, add the following line to your `env` file.
 
 ```
 DISABLE_USAGE_REPORTING=1
 ```
 
+__My personal request is that you do not disable usage reporting__. I have worked full time on this project for more than 7 years. I ask that you leave this simple usage reporting on, so that I can be encouraged by knowing how much Loomio usage is going on.
+
 ### Setup SMTP
 
-You need to bring your own SMTP server for Loomio to send emails. 
+You need to bring your own SMTP server for Loomio to send emails.
 
-If you already have and SMTP, that's great, put the settings into the `env` file. 
+If you already have and SMTP, that's great, put the settings into the `env` file.
 
 For everyone else here are some options to consider:
 
@@ -126,6 +129,7 @@ nano env
 This command initializes a new database for your Loomio instance to use.
 
 ```
+docker-compose up -d db
 docker-compose run app rake db:setup
 ```
 
@@ -139,7 +143,7 @@ Doing this tells the server what regular tasks it needs to run. These tasks incl
 Run `crontab -e` and apped the following line:
 
 ```
-0 * * * *  docker exec loomio-worker bundle exec rake loomio:hourly_tasks
+0 * * * *  /snap/bin/docker exec loomio-worker bundle exec rake loomio:hourly_tasks > ~/rake.log 2>&1
 ```
 
 ## Starting the services
@@ -149,13 +153,11 @@ This command starts the database, application, reply-by-email, and live-update s
 docker-compose up -d
 ```
 
+Before the rails server is started, the javascript client is built, which can take up to 5 minutes. This only happens the first time you start a new Loomio version - restarts should be faster.
+
+If you visit the url with your browser and the rails server is not yet running, but nginx is, you'll see a "503 bad gateway" error message.
+
 You'll want to see the logs as it all starts, run the following command:
-
-```
-docker-compose logs
-```
-
-You might like to keep an additional console open by your side to watch for potential errors or warnings:
 
 ```
 docker-compose logs -f
@@ -188,9 +190,9 @@ docker-compose up -d
 To update Loomio to the latest image you'll need to stop, rm, pull, apply potential changes to the database schema, and run again.
 
 ```sh
-docker-compose down
 docker-compose pull
-docker exec -ti loomio-app rake db:migrate
+docker-compose down
+docker-compose run app rake db:migrate
 docker-compose up -d
 ```
 
@@ -203,7 +205,7 @@ docker system prune
 To login to your running rails app console:
 
 ```sh
-docker exec -ti loomio-app rails console
+docker-compose run app rails c
 ```
 
 A PostgreSQL shell to inspect the database:

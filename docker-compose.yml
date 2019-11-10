@@ -40,6 +40,7 @@ app:
   volumes:
     - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
+    - ./storage:/loomio/storage
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
     - ./import:/import
@@ -53,10 +54,12 @@ worker:
     - db
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+    - REDIS_URL=redis://redis:6379
     - TASK=worker
   volumes:
     - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
+    - ./storage:/loomio/storage
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
 
@@ -69,6 +72,7 @@ db:
     - ./pgdumps:/pgdumps
   environment:
    - POSTGRES_PASSWORD=password
+   - POSTGRES_DB=loomio_production
    - PGDATA=/pgdata
 
 redis:

@@ -17,12 +17,14 @@ TLD_LENGTH=REPLACE_WITH_TLD_LENGTH
 
 # smtp settings
 SUPPORT_EMAIL=REPLACE_WITH_CONTACT_EMAIL
-SMTP_DOMAIN=REPLACE_WITH_HOSTNAME
 
+SMTP_AUTH=plain
+SMTP_DOMAIN=REPLACE_WITH_HOSTNAME
 SMTP_SERVER=smtp.example.com
 SMTP_PORT=465
 SMTP_USERNAME=smtpusername
 SMTP_PASSWORD=smtppassword
+SMTP_USE_SSL=1
 
 REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
 
@@ -33,8 +35,8 @@ RAILS_ENV=production
 # Number of webserver processes and threads
 # threads are per worker. See https://github.com/puma/puma
 PUMA_WORKERS=2
-MIN_THREADS=2
-MAX_THREADS=8
+MIN_THREADS=12
+MAX_THREADS=12
 
 # Force all connections to be https
 FORCE_SSL=1
@@ -48,12 +50,6 @@ USE_RACK_ATTACK=1
 # subscribe on participation default for new users
 # uncomment this to change "subscribe on participation" to be false for new users
 # EMAIL_ON_PARTICIPATION_DEFAULT_FALSE=1
-#
-#
-# Errbit
-# ERRBIT_HOST
-# ERRBIT_KEY
-# ERRBIT_PORT
 
 # Uncomment these to disable features
 # FEATURES_DISABLE_CREATE_USER=1     # users must be invited
@@ -84,7 +80,7 @@ USE_RACK_ATTACK=1
 
 # used in emails. use rgb or hsl values, not hex
 # THEME_PRIMARY_COLOR=rgb(255,167,38)
-# THEME_ACCENT_COLOR=rgb(0,188,212)')
+# THEME_ACCENT_COLOR=rgb(0,188,212)
 # THEME_TEXT_ON_PRIMARY_COLOR=rgb(255,255,255)
 # THEME_TEXT_ON_ACCENT_COLOR=rgb(255,255,255)
 
