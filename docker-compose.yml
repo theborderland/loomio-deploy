@@ -40,6 +40,7 @@ app:
   volumes:
     - ./client:/loomio/public/client
     - ./uploads:/loomio/public/system
+    - ./storage:/loomio/storage
     - ./files:/loomio/public/files
     - ./plugins:/loomio/plugins/docker
     - ./import:/import
